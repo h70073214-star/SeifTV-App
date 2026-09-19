@@ -2,22 +2,25 @@ workflows:
   seif-tv-android:
     name: Seif TV Android APK
     instance_type: linux_x2
+
     environment:
       java: 17
+
     scripts:
-      - name: Extract Seif TV source
+      - name: Extract Seif TV project
         script: |
-          rm -rf SeifTV
-          mkdir SeifTV
-          unzip -q SeifTV-Android-Source.zip -d SeifTV
-      - name: Generate Gradle wrapper
+          unzip -q SeifTV-Android-Source.zip
+
+      - name: Prepare Gradle
         script: |
-          cd SeifTV
+          cd SeifTV-FINAL-Android-Project
           gradle wrapper --gradle-version 8.7
-      - name: Build debug APK
-        script: |
-          cd SeifTV
           chmod +x gradlew
+
+      - name: Build APK
+        script: |
+          cd SeifTV-FINAL-Android-Project
           ./gradlew --no-daemon assembleDebug
+
     artifacts:
-      - SeifTV/app/build/outputs/apk/debug/*.apk
+      - SeifTV-FINAL-Android-Project/app/build/outputs/apk/debug/*.apk
